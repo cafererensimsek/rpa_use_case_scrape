@@ -21,8 +21,8 @@ def uipath(keyword):
                 report = report.get_text().lower().replace('contact sales', '')
 
                 if(keyword in report):
-                    with io.open(keyword + ".txt", "w", encoding='utf-8') as f:
-                        f.write('https://www.uipath.com' + link['href'])
+                    with io.open(keyword + ".txt", "a", encoding='utf-8') as f:
+                        f.write('https://www.uipath.com' + link['href'] + "\n")
 
             except:
                 report = BeautifulSoup(requests.get(
@@ -33,12 +33,12 @@ def uipath(keyword):
                 report = report.get_text().lower().replace('contact sales', '')
 
                 if(keyword in report):
-                    with io.open(keyword + ".txt", "w", encoding='utf-8') as f:
-                        f.write(link['href'])
+                    with io.open(keyword + ".txt", "a", encoding='utf-8') as f:
+                        f.write(link['href'] + "\n")
 
         except:
-            with io.open("error.txt", "w", encoding='utf-8') as f:
-                f.write(link)
+            with io.open("error.txt", "a", encoding='utf-8') as f:
+                f.write(link + "\n")
 
 
 def automation_anywhere(keyword):
@@ -81,14 +81,14 @@ def automation_anywhere(keyword):
             for element in elements:
                 report += element.text
 
-            if(keyword in report):
-                with io.open(keyword + ".txt", "w", encoding='utf-8') as f:
-                    f.write(link)
+            if(keyword in report.lower()):
+                with io.open(keyword + ".txt", "a", encoding='utf-8') as f:
+                    f.write(link + "\n")
 
             session.close()
         except:
-            with io.open("error.txt", "w", encoding='utf-8') as f:
-                f.write(link)
+            with io.open("error.txt", "a", encoding='utf-8') as f:
+                f.write(link + "\n")
 
 
 if __name__ == '__main__':
