@@ -81,9 +81,14 @@ def automation_anywhere(keyword):
             for element in elements:
                 report += element.text
 
-            if(keyword in report.lower()):
+            report = report.replace('Sales & Marketing', '')
+            report = report.replace('ServiceSales & MarketingBy', '').lower()
+
+            if(keyword in report):
                 with io.open(keyword + ".txt", "a", encoding='utf-8') as f:
                     f.write(link + "\n")
+                with io.open("report.txt", "w", encoding='utf-8') as f2:
+                    f2.write(report)
 
             session.close()
         except:
