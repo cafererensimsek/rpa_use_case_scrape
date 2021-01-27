@@ -4,6 +4,9 @@ def uipath(keyword):
     import io
     from tqdm import tqdm
 
+    print('\nStarting to scrape UiPath for ' +
+          keyword, ' related use case reports...\n')
+
     links = BeautifulSoup(requests.get(
         'https://www.uipath.com/resources/automation-case-studies').content, 'lxml').find_all('a', {'class': 'resource-item Success story'})
 
@@ -37,14 +40,20 @@ def uipath(keyword):
                         f.write(link['href'] + "\n")
 
         except:
-            with io.open("error.txt", "a", encoding='utf-8') as f:
+            with io.open(keyword + "-error.txt", "a", encoding='utf-8') as f:
                 f.write(link + "\n")
+
+    print(
+        '\nUiPath scrape finished. I wrote the related article links to \'' + keyword + '.txt\'.\n')
 
 
 def automation_anywhere(keyword):
     from requests_html import HTMLSession
     import io
     from tqdm import tqdm
+
+    print('\nStarting to scrape AutomationAnywhere for ' +
+          keyword + ' related use case reports...\n')
 
     session = HTMLSession()
 
@@ -87,16 +96,18 @@ def automation_anywhere(keyword):
             if(keyword in report):
                 with io.open(keyword + ".txt", "a", encoding='utf-8') as f:
                     f.write(link + "\n")
-                with io.open("report.txt", "w", encoding='utf-8') as f2:
-                    f2.write(report)
 
             session.close()
         except:
-            with io.open("error.txt", "a", encoding='utf-8') as f:
+            with io.open(keyword + "-error.txt", "a", encoding='utf-8') as f:
                 f.write(link + "\n")
+
+    print('\nAutomationAnywhere scrape finished. I wrote the related article links to \'' +
+          keyword + '.txt\'.\n')
 
 
 if __name__ == '__main__':
-    keyword = input("keyword: ")
+    keyword = input(
+        "Tell me what your keyword is and I'll tell you what the use case report links are: ")
     uipath(keyword)
     automation_anywhere(keyword)
